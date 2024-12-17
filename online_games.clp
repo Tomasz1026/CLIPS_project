@@ -3,7 +3,7 @@
     (show "start"))
 
 (defrule online-game-genre
-    (start)
+    (start Next)
 =>
     (question "online-game-genre" "genre"))
 

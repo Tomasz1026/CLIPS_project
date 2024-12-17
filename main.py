@@ -1,6 +1,7 @@
 from tkinter import *
 import clips
 import configparser
+from time import *
 
 FONT_SIZE = 13
 FONT_TYPE = "Arial"
@@ -20,17 +21,22 @@ frameMain.pack(side="top", expand=True, fill="both")
 frameQuestion = Frame(frameMain)
 frameQuestion.pack(side="top", expand=True, fill="both")
 
+
 env = clips.Environment()
 
-def reset_frame(frame):
+def reset_frame(frame, q_text="test", fact_name="test", answers=[]):
     """ Czyści wszystkie elementy interfejsu. """
+    count = 0
+    size = len(answers)
     for widget in frame.winfo_children():
-        if type(widget)==Button:
-            print("button")
+        if type(widget)==Button and count < size:
+            widget.configure(text=answers[count], command=lambda arg=answers[count]: assert_fact(fact_name, arg))
+            widget.pack()
+            count += 1
         elif type(widget) == Label:
-            print("label")
-        widget.destroy()
-        #widget.configure(background="red")
+            widget.configure(text=q_text)
+        else:
+            widget.pack_forget()
 
 def print_c():
     """ Wyświetla wszystkie fakty CLIPS na konsoli. """
@@ -58,33 +64,30 @@ def get_text(key: str) -> str:
 def get_answers(key: str) -> list:
     """ Pobiera odpowiedzi jako listę z pliku properties. """
     answers = config["DEFAULT"].get(key, "")
-    return [ans.strip() for ans in answers.split(",")]
+    return [ans.strip() for ans in answers.split(";")]
 
 def question(question_key: str, fact_name: str):
     """ Wyświetla pytanie oraz dynamicznie wygenerowane przyciski z odpowiedziami. """
-    reset_frame(frameQuestion)
+    
     question_text = get_text(question_key)
     answers = get_answers(f"{question_key}-answers")
-    Label(frameQuestion, text=question_text, font=(FONT_TYPE, FONT_SIZE)).pack(side="top", expand=True, fill="both")
 
-    for i in range(len(answers)):
-        Button(frameQuestion, text=answers[i], font=(FONT_TYPE, FONT_SIZE), command=lambda arg=answers[i]: assert_fact(fact_name, arg)).pack(side="top", expand=True)
-        #btn[i].bind('<Enter>', func=lambda e: btn[i].config(background='black', foreground= "white"))
-        #btn[i].bind('<Leave>', func=lambda e: btn[i].config(background='SystemButtonFace', foreground= "black"))
-        
+    reset_frame(frame=frameQuestion, q_text=question_text, fact_name=fact_name, answers=answers)      
 
 def show(text_key: str):
     """ Wyświetla komunikat powitalny. """
-    reset_frame(frameQuestion)
+
     text = get_text(text_key)
-    Label(frameQuestion, text=text, font=(FONT_TYPE, FONT_SIZE)).pack(side="top", expand=True, fill="both")
-    Button(frameQuestion, text="Next", font=(FONT_TYPE, FONT_SIZE), command=lambda: assert_fact("start")).pack(side="top", expand=True)
+    reset_frame(frame=frameQuestion, q_text=text, fact_name="start", answers=["Next"])
+    #Label(frameQuestion, text=text, font=(FONT_TYPE, FONT_SIZE)).pack(side="top", expand=True, fill="both")
+    #Button(frameQuestion, text="Next", font=(FONT_TYPE, FONT_SIZE), command=lambda: assert_fact("start")).pack(side="top", expand=True)
 
 def result(result_key: str):
     """ Wyświetla wynik na podstawie klucza. """
-    reset_frame(frameQuestion)
+    
     result_text = get_text(result_key)
-    Label(frameQuestion, text=result_text, font=(FONT_TYPE, FONT_SIZE)).pack(side="top", expand=True, fill="both")
+    reset_frame(frame=frameQuestion, q_text=result_text)
+    #Label(frameQuestion, text=result_text, font=(FONT_TYPE, FONT_SIZE)).pack(side="top", expand=True, fill="both")
 
 def reset_on_enter(e):
    reset_btn.config(background='OrangeRed3', foreground= "white")
@@ -99,6 +102,12 @@ if __name__ == "__main__":
     reset_btn.bind('<Leave>', reset_on_leave)
 
     reset_btn.pack(pady=20)
+
+    Label(frameQuestion, text="", font=(FONT_TYPE, FONT_SIZE)).pack(side="top", expand=True, fill="both")
+    Button(frameQuestion, font=(FONT_TYPE, FONT_SIZE)).pack()
+    Button(frameQuestion, font=(FONT_TYPE, FONT_SIZE)).pack()
+    Button(frameQuestion, font=(FONT_TYPE, FONT_SIZE)).pack()
+    Button(frameQuestion, font=(FONT_TYPE, FONT_SIZE)).pack()
 
     env.define_function(question, name='question')
     env.define_function(result, name='result')
