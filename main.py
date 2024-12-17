@@ -26,7 +26,9 @@ def reset_frame(frame):
     """ Czyści wszystkie elementy interfejsu. """
     for widget in frame.winfo_children():
         if type(widget)==Button:
-            print("t")
+            print("button")
+        elif type(widget) == Label:
+            print("label")
         widget.destroy()
         #widget.configure(background="red")
 
@@ -82,7 +84,6 @@ def result(result_key: str):
     """ Wyświetla wynik na podstawie klucza. """
     reset_frame(frameQuestion)
     result_text = get_text(result_key)
-    Label(frameQuestion, text="Your game:", font=(FONT_TYPE, FONT_SIZE+2)).pack(side="top", expand=True, fill="both")
     Label(frameQuestion, text=result_text, font=(FONT_TYPE, FONT_SIZE)).pack(side="top", expand=True, fill="both")
 
 def reset_on_enter(e):
