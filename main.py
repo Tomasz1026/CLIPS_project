@@ -2,19 +2,33 @@ from tkinter import *
 import clips
 import configparser
 
+FONT_SIZE = 13
+FONT_TYPE = "Arial"
+
 # Wczytanie pliku properties
 config = configparser.ConfigParser()
 config.read("src.properties")
 
 root = Tk()
-frame = Frame(root)
-frame.pack(side="top", expand=True, fill="both")
+root.geometry("800x350")
+root.resizable(False,False)
+root.title("Find on-line game for you!")
+
+frameMain = Frame(root)
+frameMain.pack(side="top", expand=True, fill="both")
+
+frameQuestion = Frame(frameMain)
+frameQuestion.pack(side="top", expand=True, fill="both")
+
 env = clips.Environment()
 
-def reset_frame():
+def reset_frame(frame):
     """ Czyści wszystkie elementy interfejsu. """
     for widget in frame.winfo_children():
+        if type(widget)==Button:
+            print("t")
         widget.destroy()
+        #widget.configure(background="red")
 
 def print_c():
     """ Wyświetla wszystkie fakty CLIPS na konsoli. """
@@ -46,33 +60,45 @@ def get_answers(key: str) -> list:
 
 def question(question_key: str, fact_name: str):
     """ Wyświetla pytanie oraz dynamicznie wygenerowane przyciski z odpowiedziami. """
-    reset_frame()
+    reset_frame(frameQuestion)
     question_text = get_text(question_key)
     answers = get_answers(f"{question_key}-answers")
-    
-    l = Label(frame, text=question_text)
-    l.pack()
-    for ans in answers:
-        Button(frame, text=ans, command=lambda arg=ans: assert_fact(fact_name, arg)).pack()
-    Button(frame, text="RESET", command=reset_clips).pack()
+    Label(frameQuestion, text=question_text, font=(FONT_TYPE, FONT_SIZE)).pack(side="top", expand=True, fill="both")
+
+    for i in range(len(answers)):
+        Button(frameQuestion, text=answers[i], font=(FONT_TYPE, FONT_SIZE), command=lambda arg=answers[i]: assert_fact(fact_name, arg)).pack(side="top", expand=True)
+        #btn[i].bind('<Enter>', func=lambda e: btn[i].config(background='black', foreground= "white"))
+        #btn[i].bind('<Leave>', func=lambda e: btn[i].config(background='SystemButtonFace', foreground= "black"))
+        
 
 def show(text_key: str):
-    """ Wyświetla komunikat powitalny lub informacyjny. """
-    reset_frame()
+    """ Wyświetla komunikat powitalny. """
+    reset_frame(frameQuestion)
     text = get_text(text_key)
-    w = Label(frame, text=text)
-    w.pack()
-    Button(frame, text="Next", command=lambda: assert_fact("start")).pack()
-    Button(frame, text="RESET", command=reset_clips).pack()
+    Label(frameQuestion, text=text, font=(FONT_TYPE, FONT_SIZE)).pack(side="top", expand=True, fill="both")
+    Button(frameQuestion, text="Next", font=(FONT_TYPE, FONT_SIZE), command=lambda: assert_fact("start")).pack(side="top", expand=True)
 
 def result(result_key: str):
     """ Wyświetla wynik na podstawie klucza. """
-    reset_frame()
+    reset_frame(frameQuestion)
     result_text = get_text(result_key)
-    Label(frame, text=result_text).pack()
-    Button(frame, text="RESET", command=reset_clips).pack()
+    Label(frameQuestion, text="Your game:", font=(FONT_TYPE, FONT_SIZE+2)).pack(side="top", expand=True, fill="both")
+    Label(frameQuestion, text=result_text, font=(FONT_TYPE, FONT_SIZE)).pack(side="top", expand=True, fill="both")
+
+def reset_on_enter(e):
+   reset_btn.config(background='OrangeRed3', foreground= "white")
+
+def reset_on_leave(e):
+   reset_btn.config(background= 'SystemButtonFace', foreground= 'black')
 
 if __name__ == "__main__":
+    reset_btn = Button(frameMain, text="RESET", command=reset_clips, font=(FONT_TYPE, FONT_SIZE), )
+
+    reset_btn.bind('<Enter>', reset_on_enter)
+    reset_btn.bind('<Leave>', reset_on_leave)
+
+    reset_btn.pack(pady=20)
+
     env.define_function(question, name='question')
     env.define_function(result, name='result')
     env.define_function(show, name="show")
