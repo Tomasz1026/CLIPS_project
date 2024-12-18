@@ -7,6 +7,70 @@
 =>
     (question "online-game-genre" "genre"))
 
+(defrule ground-flying
+    (genre Shooters)
+=>
+    (question "ground-flying" "ground-flying"))
+
+(defrule large-scale-battles-or-ability
+    (ground-flying Flying though space.)
+=>
+    (question "large-scale-battles-or-ability" "large-scale-battles-or-ability"))
+
+(defrule Battlestar-Galactica
+    (large-scale-battles-or-ability Precise control)
+=>
+    (result "Battlestar-Galactica"))
+
+(defrule Ace-Onlice
+    (large-scale-battles-or-ability Big battles)
+=>
+    (result "Ace-Onlice"))
+
+(defrule military-monsters
+    (ground-flying On the ground.)
+=>
+    (question "military-monsters" "military-monsters"))
+
+(defrule mummies-werewolves
+    (military-monsters Monsters)
+=>
+    (question "mummies-werewolves" "mummies-werewolves"))
+
+(defrule Wolf-Team
+    (mummies-werewolves Werewolves)
+=>
+    (result "Wolf-Team"))
+
+(defrule Missin-Against-Terror
+    (mummies-werewolves Mummies)
+=>
+    (result "Missin-Against-Terror"))
+
+(defrule ww2
+    (military-monsters Military)
+=>
+    (question "ww2" "ww2"))
+
+(defrule World-Of-Tanks
+    (ww2 Tank)
+=>
+    (result "World-Of-Tanks"))
+
+(defrule Lost-Saga
+    (ww2 Soldier)
+=>
+    (result "Lost-Saga"))
+
+
+
+
+
+
+
+
+
+
 (defrule rpgs-genre
     (genre RPGs)
 =>
@@ -84,20 +148,20 @@
     (question "large-scale-battles" "large-scale-battles")
 )
 
-(defrule lord-of-the-rings
+(defrule lord-of-the-rings-trilogy
     (large-scale-battles Yes.)
 =>
-    (question "lord-of-the-rings" "lord-of-the-rings")
+    (question "lord-of-the-rings-trilogy" "lord-of-the-rings-trilogy")
 )
 
-(defrule Lord
-    (lord-of-the-rings Yes.)
+(defrule Lord-Of-The-Rings
+    (lord-of-the-rings-trilogy Yes.)
 =>
-    (result "Lord")
+    (result "Lord-Of-The-Rings")
 )
 
 (defrule strong-quests-pets
-    (lord-of-the-rings Meh.)
+    (lord-of-the-rings-trilogy Meh.)
 =>
     (question "strong-quests-pets" "strong-quests-pets")
 )
@@ -115,7 +179,7 @@
 )
 
 (defrule pvp
-    (lord-of-the-rings Not especially.)
+    (large-scale-battles Not especially.)
 =>
     (question "pvp" "pvp")
 )
@@ -126,27 +190,27 @@
     (question "close-to-wow" "close-to-wow"))
 
 (defrule Runes-Of-Magic
-    (close-to-wow Yes.)
+    (close-to-wow Yes)
 =>
     (result "Runes-Of-Magic"))
 
-(defrule distinctive
+(defrule distinctive-features
     (close-to-wow No)
 =>
-    (question "distinctive" "distinctive" "distinctive"))
+    (question "distinctive-features" "distinctive-features"))
 
 (defrule Crystal-Saga
-    (distinctive Auto-pilot mode to grind for you.)
+    (distinctive-features Auto-pilot mode to grind for you.)
 =>
     (result "Crystal-Saga"))
 
 (defrule Forsaken-World
-    (distinctive The chance to become a god.)
+    (distinctive-features The chance to become a god.)
 =>
     (result "Forsaken-World"))
 
 (defrule Drakensang
-    (distinctive Hack-n-slash dungeon diving, like Diablo.)
+    (distinctive-features Hack-n-slash dungeon diving, like Diablo.)
 =>
     (result "Drakensang"))
 
@@ -156,12 +220,12 @@
     (question "grand-daddy-of-rpgs" "grand-daddy-of-rpgs"))
 
 (defrule Age-Of-Conan
-    (grand-daddy-of-rpgs [1])
+    (grand-daddy-of-rpgs I want to perfecr the art of crushing my enemies.)
 =>
     (result "Age-Of-Conan"))
 
 (defrule old-school
-    (grand-daddy-of-rpgs [2])
+    (grand-daddy-of-rpgs "I love D&D!")
 =>
     (question "old-school" "old-school"))
 
@@ -219,7 +283,7 @@
 (defrule Superhero-Squad
     (incredibles-came-out No.)
 =>
-    (result "Superhero-Squad")
+    (result "Superhero")
 )
 
 (defrule vampire-hunting
@@ -236,3 +300,30 @@
     (vampire-hunting No.)
 =>
     (result "Glitch"))
+
+(defrule ground-based-missions
+    (rpgs-genre Science Fiction)
+=>
+    (question "ground-based-missions" "ground-based-missions")
+)
+
+(defrule Star-Trek
+    (ground-based-missions Beam me down, Scotty.)
+=>
+    (result "Star-Trek"))
+
+(defrule easy-to-pick-up
+    (ground-based-missions I'll stick with outer space.)
+=>
+    (question "easy-to-pick-up" "easy-to-pick-up")
+)
+
+(defrule Dark-Orbit
+    (easy-to-pick-up Easy to get the hang of.)
+=>
+    (result "Dark-Orbit"))
+
+(defrule Eve-Online
+    (easy-to-pick-up The more epic, the better.)
+=>
+    (result "Eve-Online"))
