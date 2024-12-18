@@ -4,14 +4,15 @@ import configparser
 from time import *
 
 FONT_SIZE = 13
-FONT_TYPE = "Arial"
+FONT_TYPE = "Calibri"
+LANGUAGE = "ENGLISH"
 
 # Wczytanie pliku properties
 config = configparser.ConfigParser()
 config.read("src.properties")
 
 root = Tk()
-root.geometry("800x350")
+root.geometry("600x400")
 root.resizable(False,False)
 root.title("Find on-line game for you!")
 
@@ -24,13 +25,13 @@ frameQuestion.pack(side="top", expand=True, fill="both")
 
 env = clips.Environment()
 
-def reset_frame(frame, q_text="test", fact_name="test", answers=[]):
+def reset_frame(frame, q_text="test", fact_name="test", answers_text=[], answers_clips=[]):
     """ Czyści wszystkie elementy interfejsu. """
     count = 0
-    size = len(answers)
+    size = len(answers_text)
     for widget in frame.winfo_children():
         if type(widget)==Button and count < size:
-            widget.configure(text=answers[count].replace("#38", "&"), command=lambda arg=answers[count]: assert_fact(fact_name, arg))
+            widget.configure(text=answers_text[count].replace("#38", "&"), command=lambda arg=answers_clips[count]: assert_fact(fact_name, arg))
             widget.pack()
             count += 1
         elif type(widget) == Label:
@@ -59,25 +60,26 @@ def reset_clips():
 
 def get_text(key: str) -> str:
     """ Pobiera tekst na podstawie klucza z pliku properties. """
-    return config["DEFAULT"].get(key, key)
+    return config[LANGUAGE].get(key, key)
 
 def get_answers(key: str) -> list:
-    """ Pobiera odpowiedzi jako listę z pliku properties. """
-    answers = config["DEFAULT"].get(key, "")
+    """ Pobiera odpowiedzi jako listÄ™ z pliku properties. """
+    answers = config[LANGUAGE].get(key, "")
     return [ans.strip() for ans in answers.split(";")]
 
-def question(question_key: str):
+def question(question_key: str, *answers_clips: str):
     """ Wyświetla pytanie oraz dynamicznie wygenerowane przyciski z odpowiedziami. """
+    #print(answers_clips)
     question_text = get_text(question_key)
     answers = get_answers(f"{question_key}-answers")
-    print(answers)
-    reset_frame(frame=frameQuestion, q_text=question_text, fact_name=question_key, answers=answers)      
+    #print(answers)
+    reset_frame(frame=frameQuestion, q_text=question_text, fact_name=question_key, answers_text=answers, answers_clips=answers_clips)      
 
 def show(text_key: str):
     """ Wyświetla komunikat powitalny. """
 
     text = get_text(text_key)
-    reset_frame(frame=frameQuestion, q_text=text, fact_name="start", answers=["Next"])
+    reset_frame(frame=frameQuestion, q_text=text, fact_name="start", answers_text=["Next"], answers_clips=["Next"])
 
 def result(result_key: str):
     """ Wyświetla wynik na podstawie klucza. """
@@ -100,7 +102,7 @@ if __name__ == "__main__":
 
     reset_btn.pack(pady=20)
 
-    Label(frameQuestion, text="", font=(FONT_TYPE, FONT_SIZE), wraplength=800).pack(side="top", expand=True, fill="both")
+    Label(frameQuestion, text="", font=(FONT_TYPE, FONT_SIZE), wraplength=600).pack(side="top", expand=True, fill="both")
     Button(frameQuestion, font=(FONT_TYPE, FONT_SIZE)).pack()
     Button(frameQuestion, font=(FONT_TYPE, FONT_SIZE)).pack()
     Button(frameQuestion, font=(FONT_TYPE, FONT_SIZE)).pack()
