@@ -5,17 +5,17 @@
 (defrule online-game-genre
     (start Next)
 =>
-    (question "online-game-genre" "genre"))
+    (question "online-game-genre"))
 
 (defrule ground-flying
-    (genre Shooters)
+    (online-game-genre Shooters)
 =>
-    (question "ground-flying" "ground-flying"))
+    (question "ground-flying"))
 
 (defrule large-scale-battles-or-ability
     (ground-flying Flying though space.)
 =>
-    (question "large-scale-battles-or-ability" "large-scale-battles-or-ability"))
+    (question "large-scale-battles-or-ability"))
 
 (defrule Battlestar-Galactica
     (large-scale-battles-or-ability Precise control)
@@ -30,12 +30,12 @@
 (defrule military-monsters
     (ground-flying On the ground.)
 =>
-    (question "military-monsters" "military-monsters"))
+    (question "military-monsters"))
 
 (defrule mummies-werewolves
     (military-monsters Monsters)
 =>
-    (question "mummies-werewolves" "mummies-werewolves"))
+    (question "mummies-werewolves"))
 
 (defrule Wolf-Team
     (mummies-werewolves Werewolves)
@@ -50,7 +50,7 @@
 (defrule ww2
     (military-monsters Military)
 =>
-    (question "ww2" "ww2"))
+    (question "ww2"))
 
 (defrule World-Of-Tanks
     (ww2 Tank)
@@ -72,14 +72,14 @@
 
 
 (defrule rpgs-genre
-    (genre RPGs)
+    (online-game-genre RPGs)
 =>
-    (question "rpgs-genre" "rpgs-genre"))
+    (question "rpgs-genre"))
 
 (defrule have-you-played-wow
     (rpgs-genre Fantasy)
 =>
-    (question "have-you-played-wow" "have-you-played-wow"))
+    (question "have-you-played-wow"))
 
 (defrule WOW
     (rpgs-genre Fantasy)
@@ -90,17 +90,17 @@
 (defrule pick-up-game
     (have-you-played-wow Yes, Been there, done that)
 =>
-    (question "pick-up-game" "pick-up-game"))
+    (question "pick-up-game"))
 
 (defrule pick-up-game
     (have-you-played-wow Yes, Been there, done that)
 =>
-    (question "pick-up-game" "pick-up-game"))
+    (question "pick-up-game"))
 
 (defrule more-intense-play
     (pick-up-game Casual)
 =>
-    (question "more-intense-play" "more-intense-play"))
+    (question "more-intense-play"))
 
 (defrule Shaiya
     (more-intense-play Yes.)
@@ -111,7 +111,7 @@
 (defrule more-social-features
     (more-intense-play No thanks.)
 =>
-    (question "more-social-features" "more-social-features")
+    (question "more-social-features")
 )
 
 (defrule Adventure-Quest
@@ -129,7 +129,7 @@
 (defrule digits
     (pick-up-game Involved)
 =>
-    (question "digits" "digits"))
+    (question "digits"))
 
 (defrule Wizard
     (digits 1 or "not sure")
@@ -139,19 +139,19 @@
 (defrule wide-eyed-Anime
     (digits 2 or more)
 =>
-    (question "wide-eyed-Anime" "wide-eyed-Anime")
+    (question "wide-eyed-Anime")
 )
 
 (defrule large-scale-battles
     (wide-eyed-Anime No.)
 =>
-    (question "large-scale-battles" "large-scale-battles")
+    (question "large-scale-battles")
 )
 
 (defrule lord-of-the-rings-trilogy
     (large-scale-battles Yes.)
 =>
-    (question "lord-of-the-rings-trilogy" "lord-of-the-rings-trilogy")
+    (question "lord-of-the-rings-trilogy")
 )
 
 (defrule Lord-Of-The-Rings
@@ -163,7 +163,7 @@
 (defrule strong-quests-pets
     (lord-of-the-rings-trilogy Meh.)
 =>
-    (question "strong-quests-pets" "strong-quests-pets")
+    (question "strong-quests-pets")
 )
 
 (defrule 4Story
@@ -181,13 +181,13 @@
 (defrule pvp
     (large-scale-battles Not especially.)
 =>
-    (question "pvp" "pvp")
+    (question "pvp")
 )
 
 (defrule close-to-wow
     (pvp Yes.)
 =>
-    (question "close-to-wow" "close-to-wow"))
+    (question "close-to-wow"))
 
 (defrule Runes-Of-Magic
     (close-to-wow Yes)
@@ -197,7 +197,7 @@
 (defrule distinctive-features
     (close-to-wow No)
 =>
-    (question "distinctive-features" "distinctive-features"))
+    (question "distinctive-features"))
 
 (defrule Crystal-Saga
     (distinctive-features Auto-pilot mode to grind for you.)
@@ -217,7 +217,7 @@
 (defrule grand-daddy-of-rpgs
     (pvp No.)
 =>
-    (question "grand-daddy-of-rpgs" "grand-daddy-of-rpgs"))
+    (question "grand-daddy-of-rpgs"))
 
 (defrule Age-Of-Conan
     (grand-daddy-of-rpgs I want to perfecr the art of crushing my enemies.)
@@ -225,9 +225,9 @@
     (result "Age-Of-Conan"))
 
 (defrule old-school
-    (grand-daddy-of-rpgs "I love D&D!")
+    (grand-daddy-of-rpgs I love D#38D!)
 =>
-    (question "old-school" "old-school"))
+    (question "old-school"))
 
 (defrule Dark-Swords
     (old-school Old-school)
@@ -244,13 +244,13 @@
 (defrule magical-servants
     (wide-eyed-Anime Yes.)
 =>
-    (question "magical-servants" "magical-servants")
+    (question "magical-servants")
 )
 
 (defrule making-commitments
     (magical-servants No thanks, that's half the fun.)
 =>
-    (question "making-commitments" "making-commitments"))
+    (question "making-commitments"))
 
 (defrule Dream-Of-Mirror
     (making-commitments Great - I'd like a game with an emphasis on forging friendships and marriages.)
@@ -272,7 +272,7 @@
 (defrule incredibles-came-out
     (rpgs-genre Superheroes)
 =>
-    (question "incredibles-came-out" "incredibles-came-out"))
+    (question "incredibles-came-out"))
 
 (defrule Dc-Universe
     (incredibles-came-out Yes)
@@ -289,7 +289,7 @@
 (defrule vampire-hunting
     (rpgs-genre Something completely different)
 =>
-    (question "vampire-hunting" "vampire-hunting"))
+    (question "vampire-hunting"))
 
 (defrule Bitefight
     (vampire-hunting Yes.)
@@ -304,7 +304,7 @@
 (defrule ground-based-missions
     (rpgs-genre Science Fiction)
 =>
-    (question "ground-based-missions" "ground-based-missions")
+    (question "ground-based-missions")
 )
 
 (defrule Star-Trek
@@ -315,7 +315,7 @@
 (defrule easy-to-pick-up
     (ground-based-missions I'll stick with outer space.)
 =>
-    (question "easy-to-pick-up" "easy-to-pick-up")
+    (question "easy-to-pick-up")
 )
 
 (defrule Dark-Orbit
