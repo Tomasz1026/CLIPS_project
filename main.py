@@ -1,7 +1,6 @@
 from tkinter import *
 import clips
 import configparser
-from time import *
 
 FONT_SIZE = 13
 FONT_TYPE = "Calibri"
