@@ -26,17 +26,14 @@ env = clips.Environment()
 
 def reset_frame(frame, q_text="test", fact_name="test", answers_text=[], answers_clips=[]):
     """ Czyści wszystkie elementy interfejsu. """
-    count = 0
-    size = len(answers_text)
+
     for widget in frame.winfo_children():
-        if type(widget)==Button and count < size:
-            widget.configure(text=answers_text[count].replace("#38", "&"), command=lambda arg=answers_clips[count]: assert_fact(fact_name, arg))
-            widget.pack()
-            count += 1
-        elif type(widget) == Label:
-            widget.configure(text=q_text)
-        else:
-            widget.pack_forget()
+        widget.pack_forget()
+
+    Label(frame, text=q_text, font=(FONT_TYPE, FONT_SIZE), wraplength=600).pack(side="top", expand=True, fill="both")
+
+    for i in range(len(answers_clips)):
+        Button(frame, font=(FONT_TYPE, FONT_SIZE), text=answers_text[i].replace("#38", "&"), command=lambda arg=answers_clips[i]: assert_fact(fact_name, arg)).pack()
 
 def print_c():
     """ Wyświetla wszystkie fakty CLIPS na konsoli. """
@@ -71,7 +68,7 @@ def question(question_key: str, *answers_clips: str):
     #print(answers_clips)
     question_text = get_text(question_key)
     answers = get_answers(f"{question_key}-answers")
-    #print(answers)
+    print(answers)
     reset_frame(frame=frameQuestion, q_text=question_text, fact_name=question_key, answers_text=answers, answers_clips=answers_clips)      
 
 def show(text_key: str):
@@ -100,12 +97,6 @@ if __name__ == "__main__":
     reset_btn.bind('<Leave>', reset_on_leave)
 
     reset_btn.pack(pady=20)
-
-    Label(frameQuestion, text="", font=(FONT_TYPE, FONT_SIZE), wraplength=600).pack(side="top", expand=True, fill="both")
-    Button(frameQuestion, font=(FONT_TYPE, FONT_SIZE)).pack()
-    Button(frameQuestion, font=(FONT_TYPE, FONT_SIZE)).pack()
-    Button(frameQuestion, font=(FONT_TYPE, FONT_SIZE)).pack()
-    Button(frameQuestion, font=(FONT_TYPE, FONT_SIZE)).pack()
 
     env.define_function(question, name='question')
     env.define_function(result, name='result')
