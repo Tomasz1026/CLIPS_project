@@ -12,7 +12,6 @@ config.read("src.properties")
 
 root = Tk()
 root.geometry("600x400")
-root.resizable(False,False)
 root.title("Find on-line game for you!")
 
 frameMain = Frame(root)
