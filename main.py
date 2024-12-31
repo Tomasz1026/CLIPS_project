@@ -68,21 +68,18 @@ def question(question_key: str, *answers_clips: str):
     #print(answers_clips)
     question_text = get_text(question_key)
     answers = get_answers(f"{question_key}-answers")
-    print(answers)
+    #print(answers)
     reset_frame(frame=frameQuestion, q_text=question_text, fact_name=question_key, answers_text=answers, answers_clips=answers_clips)      
 
 def show(text_key: str):
     """ Wyświetla komunikat powitalny. """
-
     text = get_text(text_key)
     reset_frame(frame=frameQuestion, q_text=text, fact_name="start", answers_text=["Next"], answers_clips=["Next"])
 
 def result(result_key: str):
     """ Wyświetla wynik na podstawie klucza. """
-    
     result_text = get_text(result_key)
     reset_frame(frame=frameQuestion, q_text=result_text)
-    #Label(frameQuestion, text=result_text, font=(FONT_TYPE, FONT_SIZE)).pack(side="top", expand=True, fill="both")
 
 def reset_on_enter(e):
    reset_btn.config(background='OrangeRed3', foreground= "white")
